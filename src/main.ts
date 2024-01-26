@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,8 +11,21 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
 
+  const apiDocsUri = 'api/docs';
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
-  await app.listen(3000);
+  SwaggerModule.setup(apiDocsUri, app, document);
+
+  const cf = app.get(ConfigService);
+  const nodeEnv = cf.get('NODE_ENV')
+    ? (cf.get('NODE_ENV') as string).toUpperCase()
+    : 'DEV';
+  const protocol = cf.get(`API_${nodeEnv}_PROTOCOL`);
+  const host = cf.get(`API_${nodeEnv}_HOST`);
+  const port = +cf.get(`API_${nodeEnv}_PORT`);
+  await app.listen(port, () => {
+    console.log(
+      `API docs is available on URL: ${protocol}://${host}:${port}/${apiDocsUri}`,
+    );
+  });
 }
 bootstrap();

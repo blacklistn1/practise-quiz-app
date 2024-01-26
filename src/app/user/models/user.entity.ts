@@ -31,8 +31,25 @@ export class User extends BaseEntityWithTimestamps {
   })
   last_name: string | null;
 
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  picture: string | null;
+
+  @Column({
+    type: 'varchar',
+    length: 50,
+    nullable: true,
+  })
+  nickname: string | null;
+
   get full_name() {
-    return this.first_name + ' ' + this.last_name;
+    let fname = this.first_name;
+    if (this.last_name) {
+      fname += ' ' + this.last_name;
+    }
+    return fname;
   }
 
   constructor(data: Partial<User> = {}) {

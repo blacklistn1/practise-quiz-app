@@ -11,4 +11,5 @@ export const dataSource = new DataSource({
   database: process.env.DB_LOCAL_DATABASE,
   synchronize: false,
   entities: ['./src/app/**/*.entity.ts'],
+  migrations: ['./src/project/db/migrations/*.ts'],
 });
