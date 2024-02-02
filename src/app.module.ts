@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import mainConfig from './project/config/main.config';
 import { UserModule } from './app/user/user.module';
+import { AuthModule } from './app/auth/auth.module';
 
 @Module({
   imports: [
@@ -22,9 +23,11 @@ import { UserModule } from './app/user/user.module';
         database: cf.get('database.database'),
         synchronize: cf.get('database.synchronize'),
         entities: cf.get('database.entities'),
+        autoLoadEntities: true,
       }),
     }),
     UserModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
