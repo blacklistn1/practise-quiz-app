@@ -49,3 +49,19 @@ export class CreateUserResponse {
     Object.assign(this, data);
   }
 }
+
+export class LoginRequest {
+  @IsDefined()
+  @IsEmail()
+  @IsNotEmpty()
+  @ApiProperty()
+  email: string;
+
+  @IsDefined()
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(8)
+  @MaxLength(60)
+  @ApiProperty()
+  password: string;
+}
