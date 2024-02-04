@@ -27,6 +27,13 @@ export class AuthController {
     return this.authService.register(body);
   }
 
+  @Post('login')
+  @ApiBody({
+    type: LoginRequest,
+  })
+  @ApiCreatedResponse({
+    type: AuthResponse,
+  })
   login(@Body() body: LoginRequest) {
     return this.authService.login(body);
   }

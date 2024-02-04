@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntityWithTimestamps } from '../../../project/db/common.entity';
+import { Task } from '../../task/entities/task.entity';
 
 @Entity({
   name: 'users',
@@ -43,6 +44,9 @@ export class User extends BaseEntityWithTimestamps {
     nullable: true,
   })
   nickname: string | null;
+
+  @OneToMany(() => Task, (task) => task.owner)
+  tasks: Task[];
 
   get full_name() {
     let fname = this.first_name;

@@ -11,6 +11,7 @@ async function bootstrap() {
     .setTitle('Practise project: Quiz app')
     .setDescription('This is a practise project on ')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const apiDocsUri = 'api/docs';

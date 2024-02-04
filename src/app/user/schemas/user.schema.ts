@@ -9,7 +9,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateUserRequest {
+export class LoginRequest {
   @IsDefined()
   @IsEmail()
   @IsNotEmpty()
@@ -23,7 +23,9 @@ export class CreateUserRequest {
   @MaxLength(60)
   @ApiProperty()
   password: string;
+}
 
+export class CreateUserRequest extends LoginRequest {
   @IsOptional()
   @IsString()
   @ApiProperty()
@@ -48,20 +50,4 @@ export class CreateUserResponse {
   constructor(data: Partial<CreateUserResponse>) {
     Object.assign(this, data);
   }
-}
-
-export class LoginRequest {
-  @IsDefined()
-  @IsEmail()
-  @IsNotEmpty()
-  @ApiProperty()
-  email: string;
-
-  @IsDefined()
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(8)
-  @MaxLength(60)
-  @ApiProperty()
-  password: string;
 }
