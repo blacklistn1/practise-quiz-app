@@ -26,6 +26,12 @@ export class Task extends BaseEntityWithTimestamps {
   })
   status: TaskStatus;
 
+  @Column()
+  start_date: Date;
+
+  @Column()
+  end_date: Date;
+
   @ManyToOne(() => User, {
     nullable: true,
   })
