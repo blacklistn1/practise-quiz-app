@@ -2,14 +2,20 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Post,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/services/auth.guard';
 
 @Controller('tasks')
 @ApiTags('Tasks')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 export class TaskController {
   @Post('create')
-  createTask() {}
+  createTask() {
+    return 'yay';
+  }
 }
