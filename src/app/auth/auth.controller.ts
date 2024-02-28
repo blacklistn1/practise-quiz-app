@@ -5,7 +5,12 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiTags,
+  getSchemaPath,
+} from '@nestjs/swagger';
 import { CreateUserRequest, LoginRequest } from '../user/schemas/user.schema';
 import { AuthService } from './services/auth.service';
 import { AuthResponse } from './schemas/auth.schema';
@@ -21,7 +26,18 @@ export class AuthController {
     type: CreateUserRequest,
   })
   @ApiCreatedResponse({
-    type: AuthResponse,
+    schema: {
+      type: 'object',
+      properties: {
+        status_code: {
+          type: 'number',
+        },
+        data: {
+          type: 'object',
+          $ref: getSchemaPath(AuthResponse),
+        },
+      },
+    },
   })
   register(@Body() body: CreateUserRequest) {
     return this.authService.register(body);
